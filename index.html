@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #0b1522;
+            min-height: 100vh;
+
+        }
+
+        .heart-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .heart {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            background-color: #ff69b4;
+            /* pink color */
+            /* */
+            transform: rotate(-45deg);
+            box-shadow: -10px 10px 90px #ff69b4;
+            animation: heart 1s linear infinite;
+            flex-direction: column;
+        }
+
+        .text {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: #fff;
+            margin-top: 20px;
+            text-shadow: 0 0 10px #ff69b4;
+            /* animation: text 1s ease-in-out infinite; */
+        }
+
+        @keyframes text {
+            0% {
+                opacity: 0;
+                /* transform: scale(0.5); */
+            }
+
+            50% {
+                opacity: 1;
+                /* transform: scale(1); */
+            }
+
+            100% {
+                opacity: 0;
+                /* transform: scale(0.5); */
+            }
+        }
+
+        @keyframes heart {
+            0% {
+                transform: rotate(-45deg) scale(1);
+            }
+
+            25% {
+                transform: rotate(-45deg) scale(0.8);
+            }
+
+            50% {
+                transform: rotate(-45deg) scale(1);
+            }
+
+            75% {
+                transform: rotate(-45deg) scale(0.8);
+            }
+
+            100% {
+                transform: rotate(-45deg) scale(1);
+            }
+        }
+
+        .heart:before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            width: 80px;
+            height: 80px;
+            background-color: #ff69b4;
+            box-shadow: -10px -10px 90px #ff69b4;
+            /* pink color */
+            border-radius: 80px;
+        }
+
+        .heart:after {
+            content: "";
+            position: absolute;
+            right: -50%;
+            width: 80px;
+            height: 80px;
+            background-color: #ff69b4;
+            box-shadow: 10px -10px 90px #ff69b4;
+            /* pink color */
+            border-radius: 80px;
+        }
+
+        .random-heart {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: random-heart 2s linear infinite;
+        }
+
+        @keyframes random-heart {
+            0% {
+                opacity: 0;
+            }
+
+            50% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0;
+            }
+        }
+
+        #text {
+            margin-top: 30px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="heart-container">
+        <div class="heart"></div>
+        <div class="text" id="text"></div>
+        <div class="days text" id="days"></div>
+    </div>
+    <script>
+        const startDate = new Date("2014-10-11T00:00:00");
+        const currentDate = new Date();
+        const difference = currentDate - startDate;
+        const days = Math.floor(difference / (1000 * 3600 * 24));
+        const daysElement = document.getElementById("days");
+        let count = 0;
+        // document.getElementById("days").innerHTML = `We have been together for ${days} days (10/11/2014 - today)`;
+        function countUp() {
+            if (count < days) {
+                daysElement.innerHTML = `${count} days`;
+                count++;
+                setTimeout(countUp, 50); // adjust the delay to your liking
+            }
+        }
+
+
+        const text = "I love you </br> We have been together for";
+        const words = text.split(" ");
+        let wordIndex = 0;
+
+        function typeWord() {
+            const word = words[wordIndex];
+            const textElement = document.getElementById("text");
+            textElement.innerHTML += word + " ";
+
+            wordIndex++;
+
+            if (wordIndex < words.length) {
+                setTimeout(typeWord, 1000); // adjust the delay to your liking
+            } else {
+                countUp();
+            }
+
+        }
+        function createRandomHeart() {
+            const heartContainer = document.createElement("div");
+            heartContainer.className = "random-heart";
+            heartContainer.innerHTML = "<div class=''></div>";
+            document.body.appendChild(heartContainer);
+            setTimeout(() => {
+                heartContainer.remove();
+            }, 2000); // remove the heart after 2 seconds
+
+            setTimeout(createRandomHeart, 2000); // create a new heart after 2 seconds
+        }
+        typeWord()
+    </script>
+</body>
+
+</html>
